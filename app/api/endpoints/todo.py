@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException
-from sqlmodel import Session, create_engine, SQLModel
+from sqlmodel import Session, create_engine
 from app.core.config import settings
 from app.services.todo_service import ToDoService
 from app.api.schemas.todo import ToDoCreate, ToDoRead, ToDoUpdate
