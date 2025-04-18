@@ -3,6 +3,7 @@ from app.models.todo import ToDo
 from app.repositories.todo_repository import ToDoRepository
 from app.api.schemas.todo import ToDoCreate, ToDoUpdate
 
+
 class ToDoService:
     def __init__(self, session: Session):
         self.repo = ToDoRepository(session)

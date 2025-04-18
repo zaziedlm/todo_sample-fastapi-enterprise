@@ -7,11 +7,14 @@ app = FastAPI(title="ToDo Sample App")
 
 engine = create_engine(settings.DATABASE_URL, echo=True)
 
+
 def create_db_and_tables():
     SQLModel.metadata.create_all(engine)
+
 
 @app.on_event("startup")
 def on_startup():
     create_db_and_tables()
+
 
 app.include_router(todo.router)
