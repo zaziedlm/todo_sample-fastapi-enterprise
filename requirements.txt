@@ -3,3 +3,5 @@ uvicorn
 sqlmodel
 alembic
 pydantic
+pydantic-settings>=2.0
+
