@@ -31,4 +31,4 @@ jobs:
       - name: Run Tests
         run: |
           pip install pytest
-          pytest --maxfail=1 --disable-warnings -q
+          pytest tests/ --maxfail=1 --disable-warnings -q
