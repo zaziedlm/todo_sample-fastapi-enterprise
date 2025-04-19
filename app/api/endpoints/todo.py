@@ -37,7 +37,8 @@ def create_todo(todo: ToDoCreate, session: Session = Depends(get_session)):
 
 @router.put("/{todo_id}", response_model=ToDoRead)
 def update_todo(
-    todo_id: int, todo_data: ToDoUpdate, session: Session = Depends(get_session)
+    todo_id: int, todo_data: ToDoUpdate,
+    session: Session = Depends(get_session)
 ):
     service = ToDoService(session)
     updated = service.update_todo(todo_id, todo_data)

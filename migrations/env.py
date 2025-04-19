@@ -1,14 +1,14 @@
 import sys
 import os
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-
 from logging.config import fileConfig
 from sqlalchemy import engine_from_config, pool
 from alembic import context
 from app.models.todo import ToDo  # noqa
 from app.core.config import settings
 from sqlmodel import SQLModel
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 config = context.config
 fileConfig(config.config_file_name)

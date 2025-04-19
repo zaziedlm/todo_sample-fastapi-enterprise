@@ -1,6 +1,7 @@
 from sqlmodel import Session, select
 from app.models.todo import ToDo
 
+
 class ToDoRepository:
     def __init__(self, session: Session):
         self.session = session
