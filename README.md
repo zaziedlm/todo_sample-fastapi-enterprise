@@ -1,3 +1,4 @@
+
 ---
 
 # ToDo Sample App: Enterprise Edition
@@ -9,7 +10,7 @@
 - **FastAPI**: 高速なAPI開発を可能にするPythonフレームワーク。
 - **SQLModel**: ORM（Object Relational Mapper）を利用したデータベース操作。
 - **Alembic**: データベースマイグレーションの管理を支援。
-- **Docker/Docker Compose**: 環境構築とデプロイの簡易化。
+- **Docker/Docker Compose**: 環境構築とデプロイの簡易化。(未検証)
 - **モジュール構成**: 明確に分離されたモデル・サービス・リポジトリ層。
 
 ## プロジェクト構成
@@ -36,7 +37,7 @@ scripts/
 ```
 
 ## セットアップ
-### 依存関係のインストール
+### 依存関係のインストール（Poetry 推奨、検証済のため）
 Pip導入している場合：
 ```bash
 pip install -r requirements.txt
