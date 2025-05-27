@@ -4,3 +4,5 @@ __pycache__/
 *.sqlite3
 .venv/
 test.db
+# SpecStory explanation file
+.specstory/.what-is-this.md
