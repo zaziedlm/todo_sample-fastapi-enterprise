@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi_mcp import FastApiMCP
 from fastapi.middleware.cors import CORSMiddleware
 from sqlmodel import SQLModel, create_engine
 from app.core.config import settings
@@ -28,3 +29,6 @@ def on_startup():
 
 
 app.include_router(todo.router)
+
+mcp = FastApiMCP(app)
+mcp.mount()
