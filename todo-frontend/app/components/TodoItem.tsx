@@ -126,10 +126,10 @@ export default function TodoItem({ todo, onUpdate, onDelete }: TodoItemProps) {
                 削除
               </button>
             </div>
-          </div>
-          {todo.description && (
+          </div>          {todo.description && (
             <p className={`text-gray-600 ${completed ? 'line-through' : ''}`}>{todo.description}</p>
           )}
+          <p className="text-xs text-gray-500 mt-2">作成日時: {new Date(todo.created_at).toLocaleString('ja-JP')}</p>
         </div>
       )}
     </div>
