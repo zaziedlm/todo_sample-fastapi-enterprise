@@ -1,7 +1,7 @@
 import sqlite3
 
-# test.db というファイルに接続（存在しない場合は自動作成）
-conn = sqlite3.connect("test.db")
+# todo.db というファイルに接続（存在しない場合は自動作成）
+conn = sqlite3.connect("todo.db")
 
 # テーブルを作成（例）
 conn.execute('''

@@ -10,4 +10,4 @@ services:
     volumes:
       - ..:/app
     environment:
-      - DATABASE_URL=sqlite:///./test.db
+      - DATABASE_URL=sqlite:///./todo.db
