@@ -16,6 +16,9 @@ pydantic-settings = "^2.8.1"
 fastapi-mcp = "^0.3.4"
 
 
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.4.0"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
