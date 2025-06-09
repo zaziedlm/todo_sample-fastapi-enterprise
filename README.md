@@ -10,6 +10,8 @@
 - **FastAPI**: 高速なAPI開発を可能にするPythonフレームワーク。
 - **SQLModel**: ORM（Object Relational Mapper）を利用したデータベース操作。
 - **Alembic**: データベースマイグレーションの管理を支援。
+- **uv**: 高速で現代的なPython依存関係管理ツール。
+- **Next.js 15**: React Appルーターとモダンなフロントエンド機能。
 - **Docker/Docker Compose**: 環境構築とデプロイの簡易化。(未検証)
 - **モジュール構成**: 明確に分離されたモデル・サービス・リポジトリ層。
 - **FastAPI-MCP**: Model Context Protocol サーバーとして動作し、AIエージェントとの連携が可能。
@@ -18,12 +20,21 @@
 以下は、このプロジェクトの主要なディレクトリとファイルの構成です。
 
 ```
-app/
+app/                   # バックエンド（FastAPI）
 ├── main.py            # FastAPIアプリケーションのエントリーポイント
 ├── core/config.py     # アプリケーション設定
 ├── models/todo.py     # ToDoモデル定義
 ├── services/          # ビジネスロジック層
 └── repositories/      # データアクセス層
+
+todo-frontend/         # フロントエンド（Next.js）
+├── app/               # Next.js App Router
+├── components/        # Reactコンポーネント
+├── api/              # バックエンドAPI通信
+└── types/            # TypeScript型定義
+
+pyproject.toml        # uv依存関係管理
+start-project.sh      # フルスタック起動スクリプト
 
 docker/
 ├── Dockerfile         # Dockerイメージのビルド定義
@@ -38,39 +49,58 @@ scripts/
 ```
 
 ## セットアップ
-### 依存関係のインストール（Poetry 推奨、検証済のため）
-Pip導入している場合：
+### 依存関係のインストール（uv 推奨、高速で現代的なパッケージマネージャー）
 ```bash
-pip install -r requirements.txt
+uv sync --dev
 ```
-Poetry導入している場合：
+
+従来の方法（互換性維持）：
 ```bash
+# Pip使用の場合
+pip install -r requirements.txt
+
+# Poetry使用の場合（非推奨）
 poetry install
 ```
 
 ### データベースのマイグレーション
-現状は、Windows環境動作向けに Python経由でAlembicを実行する内容です。Linux/bash の場合は、コメントアウト部を参照方
+uv環境でAlembicを実行します：
 ```bash
 bash scripts/migrate.sh
 ```
 
 ### データベースのマイグレーションに失敗する場合など、DBを直接作成
 ```bash
-create_db.py
+uv run python create_db.py
 ```
-プロジェクトフォルダー直下に、test.db というデータベースファイルが作成されます
+プロジェクトフォルダー直下に、todo.db というデータベースファイルが作成されます
 
 ### アプリケーションの起動
-ローカル環境で起動する場合：
+
+#### フルスタック起動（推奨）
+バックエンド（FastAPI）とフロントエンド（Next.js）を同時起動：
 ```bash
-uvicorn app.main:app --reload
+./start-project.sh
 ```
-Docker Composeを利用して起動する場合：
+- バックエンド: `http://localhost:8000`
+- フロントエンド: `http://localhost:3000`
+
+#### 個別起動
+バックエンドのみ：
+```bash
+uv run uvicorn app.main:app --reload
+```
+
+フロントエンドのみ：
+```bash
+cd todo-frontend
+npm run dev
+```
+
+Docker Composeを利用する場合（未検証）：
 ```bash
 docker-compose up
 ```
-
-ブラウザで `http://127.0.0.1:8000`あるいは、`http://localhost:8000` を開いて、アプリケーションにアクセスできます。
 
 ## Model Context Protocol（MCP）サーバーとしての機能
 このアプリケーションはFastAPI-MCPを採用しており、Model Context Protocol（MCP）サーバーとして動作します。MCPは、AIエージェント（GitHub Copilot、ChatGPTなど）とアプリケーションを接続するためのプロトコルです。
@@ -93,12 +123,26 @@ docker-compose up
 MCPを活用することで、AIエージェントとToDoアプリケーションが直接連携し、より高度な機能や効率的な開発体験を提供します。
 
 ## 使用技術
+
+### バックエンド
 - **言語**: Python 3.11+
 - **フレームワーク**: FastAPI
 - **ORM**: SQLModel
-- **開発環境**: Docker, Docker Compose
+- **データベース**: SQLite
 - **マイグレーション**: Alembic
+- **依存関係管理**: uv
 - **AI連携**: FastAPI-MCP（Model Context Protocol）
+
+### フロントエンド
+- **言語**: TypeScript
+- **フレームワーク**: Next.js 15 (App Router)
+- **ライブラリ**: React 19
+- **スタイリング**: Tailwind CSS
+- **HTTP クライアント**: Axios
+
+### 開発環境
+- **コンテナ**: Docker, Docker Compose（未検証）
+- **起動スクリプト**: Bash
 
 ## 開発に貢献したい方へ
 1. Issueを確認し、新しいIssueを作成してください。

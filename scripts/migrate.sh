@@ -1,5 +1,5 @@
 #!/bin/bash
 #alembic upgrade head
 
-# Windows環境動作向けに Python経由でAlembicを実行する
-python -m alembic upgrade head
+# uv環境でAlembicを実行する
+uv run alembic upgrade head

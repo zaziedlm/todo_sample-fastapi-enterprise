@@ -5,18 +5,24 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Development Commands
 
 ### Backend (FastAPI)
-- Install dependencies: `pip install -r requirements.txt` or `poetry install`
-- Run development server: `uvicorn app.main:app --reload`
-- Database migration: `bash scripts/migrate.sh`
-- Create database directly: `python create_db.py`
-- Run tests: `pytest tests/`
+- Install dependencies: `uv sync` (installs from pyproject.toml)
+- Install dev dependencies: `uv sync --dev`
+- Run development server: `uv run uvicorn app.main:app --reload`
+- Database migration: `bash scripts/migrate.sh` (uses uv internally)
+- Create database directly: `uv run python create_db.py`
+- Run tests: `uv run pytest tests/`
+- Run single test: `uv run pytest tests/test_specific.py::test_function_name`
+
+### Full Stack Development
+- Start both backend and frontend: `bash start-project.sh` (uses uv for backend)
 
 ### Frontend (Next.js)
 - Navigate to frontend: `cd todo-frontend`
 - Install dependencies: `npm install`
-- Run development server: `npm run dev`  
-- Build: `npm run build`
-- Lint: `npm run lint`
+- Run development server: `npm run dev` (uses Turbopack for faster builds)
+- Build for production: `npm run build`
+- Start production server: `npm start`
+- Lint code: `npm run lint`
 
 ## Architecture Overview
 
@@ -41,6 +47,10 @@ This is a full-stack ToDo application with enterprise-level architecture:
 - **SQLModel**: Type-safe ORM with Pydantic integration
 - **Alembic**: Database migration management
 - **SQLite**: Default database (configurable via DATABASE_URL)
+- **Next.js 15**: React framework with App Router and Turbopack
+- **TypeScript**: Type-safe frontend development
+- **Axios**: HTTP client for API communication
+- **Tailwind CSS**: Utility-first CSS framework
 
 ### Database Configuration
 - Production DB: `todo.db`
@@ -56,3 +66,15 @@ This is a full-stack ToDo application with enterprise-level architecture:
 - CORS configured for `http://localhost:3000` (Next.js dev server)
 - Backend runs on `http://localhost:8000` by default
 - MCP endpoint available at `http://localhost:8000/mcp`
+
+## Development Notes
+- Uses uv for Python dependency management (fast, modern Python package manager)
+- Python requirements defined in pyproject.toml using PEP 621 format
+- Frontend uses Next.js 15 with App Router structure
+- Database file names: `todo.db` (production), `test.db` (testing)
+- WSL2 support: Use provided PowerShell scripts for port forwarding if needed
+
+## uv Migration Notes
+- Migrated from Poetry to uv for faster dependency resolution and installation
+- All commands now use `uv run` prefix for script execution
+- Dependencies managed through standard pyproject.toml [project] section
