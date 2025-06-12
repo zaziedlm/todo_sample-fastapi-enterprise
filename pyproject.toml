@@ -20,6 +20,7 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
     "pytest>=8.4.0",
+    "flake8>=7.0.0",
 ]
 
 [build-system]
@@ -32,4 +33,5 @@ packages = ["app"]
 [tool.uv]
 dev-dependencies = [
     "pytest>=8.4.0",
+    "flake8>=7.0.0",
 ]

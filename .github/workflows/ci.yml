@@ -31,7 +31,7 @@ jobs:
           uv pip install flake8 pytest
 
       - name: Run Linter
-        run: flake8 app/ todo-frontend/
+        run: uv run flake8 app/ todo-frontend/
 
       - name: Run Tests
         run: pytest tests/ --maxfail=1 --disable-warnings -q
