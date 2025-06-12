@@ -49,6 +49,19 @@ scripts/
 ```
 
 ## セットアップ
+### uvのインストール
+このプロジェクトでは依存関係管理に`uv`を使用しています。まだインストールしていない場合は、以下のコマンドでインストールしてください：
+
+#### Windows (PowerShell)
+```powershell
+iwr -useb https://astral.sh/uv/install.ps1 | iex
+```
+
+#### Linux/macOS/WSL
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+
 ### 依存関係のインストール（uv 推奨、高速で現代的なパッケージマネージャー）
 ```bash
 uv sync --dev
@@ -58,9 +71,6 @@ uv sync --dev
 ```bash
 # Pip使用の場合
 pip install -r requirements.txt
-
-# Poetry使用の場合（非推奨）
-poetry install
 ```
 
 ### データベースのマイグレーション
