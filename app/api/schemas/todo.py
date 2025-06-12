@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional
+from datetime import datetime
 
 
 class ToDoCreate(BaseModel):
@@ -18,6 +19,7 @@ class ToDoRead(BaseModel):
     title: str
     description: Optional[str] = None
     completed: bool
+    created_at: datetime
 
     class Config:
         orm_mode = True

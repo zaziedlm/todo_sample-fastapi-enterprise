@@ -1,5 +1,6 @@
 from sqlmodel import SQLModel, Field
 from typing import Optional
+from datetime import datetime
 
 
 class ToDo(SQLModel, table=True):
@@ -7,3 +8,4 @@ class ToDo(SQLModel, table=True):
     title: str
     description: Optional[str] = Field(default=None)
     completed: bool = Field(default=False)
+    created_at: datetime = Field(default_factory=datetime.now)
