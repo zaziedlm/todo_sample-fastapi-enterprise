@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
 import { TodoCreate } from '../types';
 import { createTodo } from '../api/todoApi';
 
@@ -11,7 +11,7 @@ interface TodoFormProps {
 export default function TodoForm({ onAdd }: TodoFormProps) {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [isPending, startTransition] = useTransition();
   const [error, setError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -27,20 +27,20 @@ export default function TodoForm({ onAdd }: TodoFormProps) {
       description: description.trim() || undefined,
     };
 
-    setIsLoading(true);
-    setError('');
-
-    try {
-      await createTodo(newTodo);
-      setTitle('');
-      setDescription('');
-      onAdd();
-    } catch (err) {
-      console.error('Error adding todo:', err);
-      setError('ToDo項目の追加に失敗しました。もう一度お試しください。');
-    } finally {
-      setIsLoading(false);
-    }
+    // React 19のuseTransitionを使用して非同期処理を最適化
+    startTransition(async () => {
+      setError('');
+      
+      try {
+        await createTodo(newTodo);
+        setTitle('');
+        setDescription('');
+        onAdd();
+      } catch (err) {
+        console.error('Error adding todo:', err);
+        setError('ToDo項目の追加に失敗しました。もう一度お試しください。');
+      }
+    });
   };
 
   return (
@@ -59,7 +59,7 @@ export default function TodoForm({ onAdd }: TodoFormProps) {
             onChange={(e) => setTitle(e.target.value)}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="タスクを入力..."
-            disabled={isLoading}
+            disabled={isPending}
           />
         </div>
         <div className="mb-4">
@@ -73,16 +73,16 @@ export default function TodoForm({ onAdd }: TodoFormProps) {
             rows={3}
             className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="詳細を入力..."
-            disabled={isLoading}
+            disabled={isPending}
           />
         </div>
         <div className="flex justify-end">
           <button
             type="submit"
-            disabled={isLoading}
+            disabled={isPending}
             className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:bg-blue-300"
           >
-            {isLoading ? '追加中...' : '追加'}
+            {isPending ? '追加中...' : '追加'}
           </button>
         </div>
       </form>

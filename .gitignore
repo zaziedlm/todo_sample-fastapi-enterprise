@@ -7,3 +7,57 @@ test.db
 todo.db
 # SpecStory explanation file
 .specstory/.what-is-this.md
+
+# Next.js (frontend build artifacts)
+.next/
+todo-frontend/.next/
+todo-frontend/out/
+todo-frontend/build/
+todo-frontend/dist/
+todo-frontend/node_modules/
+todo-frontend/*.tsbuildinfo
+todo-frontend/.turbo/
+todo-frontend/.vercel/
+
+# Frontend development files
+todo-frontend/.env*
+todo-frontend/npm-debug.log*
+todo-frontend/yarn-debug.log*
+todo-frontend/.eslintcache
+todo-frontend/.stylelintcache
+
+# IDE and Editor files
+.vscode/settings.json
+.vscode/launch.json
+.vscode/tasks.json
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs and runtime data
+logs/
+*.log
+pids/
+*.pid
+*.seed
+
+# Coverage and test files
+coverage/
+.nyc_output/
+.coverage
+
+# Package manager files (keep package-lock.json for npm consistency)
+todo-frontend/.npm
+todo-frontend/.yarn
+todo-frontend/.pnp
+todo-frontend/.pnp.*
