@@ -19,3 +19,6 @@ export interface TodoUpdate {
   description?: string;
   completed?: boolean;
 }
+
+// API関連の型をエクスポート
+export * from './api';

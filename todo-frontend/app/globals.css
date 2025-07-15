@@ -1,26 +1,185 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+/* Tailwind CSS v4 カスタムテーマ設定 */
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* カラーパレット */
+    --color-primary: #4f46e5;
+    --color-primary-foreground: #ffffff;
+    --color-secondary: #f1f5f9;
+    --color-secondary-foreground: #0f172a;
+    
+    --color-accent: #e2e8f0;
+    --color-accent-foreground: #1e293b;
+    
+    --color-muted: #f8fafc;
+    --color-muted-foreground: #64748b;
+    
+    --color-destructive: #ef4444;
+    --color-destructive-foreground: #ffffff;
+    
+    --color-success: #10b981;
+    --color-success-foreground: #ffffff;
+    
+    --color-warning: #f59e0b;
+    --color-warning-foreground: #1f2937;
+    
+    /* 背景とボーダー */
+    --color-background: #ffffff;
+    --color-foreground: #0f172a;
+    --color-border: #e2e8f0;
+    --color-input: #f8fafc;
+    --color-ring: #4f46e5;
+    
+    /* カード */
+    --color-card: #ffffff;
+    --color-card-foreground: #0f172a;
+    
+    /* ポップオーバー */
+    --color-popover: #ffffff;
+    --color-popover-foreground: #0f172a;
+  }
+
+  /* ダークモード設定 */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-background: #0f172a;
+      --color-foreground: #f8fafc;
+      --color-border: #334155;
+      --color-input: #1e293b;
+      --color-ring: #6366f1;
+      
+      --color-card: #0f172a;
+      --color-card-foreground: #f8fafc;
+      
+      --color-popover: #0f172a;
+      --color-popover-foreground: #f8fafc;
+      
+      --color-muted: #1e293b;
+      --color-muted-foreground: #94a3b8;
+      
+      --color-accent: #334155;
+      --color-accent-foreground: #e2e8f0;
+      
+      --color-secondary: #1e293b;
+      --color-secondary-foreground: #f1f5f9;
+    }
+  }
+
+  * {
+    border-color: rgb(226 232 240);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-feature-settings: "rlig" 1, "calt" 1;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    * {
+      border-color: rgb(51 65 85);
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* カスタムコンポーネントクラス */
+@layer components {
+  .todo-card {
+    @apply bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-50 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm p-4 transition-all duration-150;
+  }
+
+  .todo-card:hover {
+    @apply shadow-md;
+  }
+
+  .todo-input {
+    @apply w-full rounded-md border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-3 py-2 text-sm text-slate-900 dark:text-slate-50 placeholder:text-slate-500 dark:placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+  }
+
+  .todo-button {
+    @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50;
+  }
+
+  .todo-button-primary {
+    @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500 h-10 px-4 py-2;
+  }
+
+  .todo-button-secondary {
+    @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-slate-100 dark:bg-slate-700 text-slate-900 dark:text-slate-50 hover:bg-slate-200 dark:hover:bg-slate-600 focus:ring-slate-500 h-10 px-4 py-2;
+  }
+
+  .todo-button-destructive {
+    @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-red-600 text-white hover:bg-red-700 focus:ring-red-500 h-10 px-4 py-2;
+  }
+
+  .todo-button-outline {
+    @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-50 hover:bg-slate-100 dark:hover:bg-slate-700 focus:ring-slate-500 h-10 px-4 py-2;
+  }
+
+  .todo-button-ghost {
+    @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 focus:ring-slate-500 h-10 px-4 py-2;
+  }
+
+  .loading-spinner {
+    @apply inline-block animate-spin rounded-full border-2 border-solid border-current border-r-transparent;
+  }
+
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
+  }
+
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(203 213 225) transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: rgb(203 213 225);
+    border-radius: 3px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(148 163 184);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    .scrollbar-thin {
+      scrollbar-color: rgb(71 85 105) transparent;
+    }
+
+    .scrollbar-thin::-webkit-scrollbar-thumb {
+      background-color: rgb(71 85 105);
+    }
+
+    .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+      background-color: rgb(100 116 139);
+    }
+  }
+}
+
+/* ユーティリティクラス */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  .animation-delay-200 {
+    animation-delay: 200ms;
+  }
+  
+  .animation-delay-400 {
+    animation-delay: 400ms;
+  }
 }
