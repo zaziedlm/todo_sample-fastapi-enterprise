@@ -15,6 +15,7 @@ import {
 import { Pie, Line } from 'react-chartjs-2';
 import { DashboardData } from '../types';
 import { expenseApi } from '../api/expenseApi';
+import { formatMoney } from '../utils/money';
 import Link from 'next/link';
 
 ChartJS.register(
@@ -71,7 +72,7 @@ export default function ExpenseDashboard() {
     labels: dashboardData.category_summary.map(item => item.category_name),
     datasets: [
       {
-        data: dashboardData.category_summary.map(item => item.total_amount),
+        data: dashboardData.category_summary.map(item => parseFloat(item.total_amount)),
         backgroundColor: dashboardData.category_summary.map(item => item.color || '#C4C4C4'),
         borderWidth: 1,
       },
@@ -84,7 +85,7 @@ export default function ExpenseDashboard() {
     datasets: [
       {
         label: '月次支出',
-        data: dashboardData.monthly_trend.map(item => item.total_amount),
+        data: dashboardData.monthly_trend.map(item => parseFloat(item.total_amount)),
         borderColor: 'rgb(75, 192, 192)',
         backgroundColor: 'rgba(75, 192, 192, 0.2)',
         tension: 0.1,
@@ -190,7 +191,7 @@ export default function ExpenseDashboard() {
         <div className="bg-white p-6 rounded-lg shadow-md mb-6">
           <h2 className="text-xl font-bold mb-2">月次支出合計</h2>
           <div className="text-3xl font-bold text-blue-600">
-            ¥{dashboardData.monthly_total.toLocaleString()}
+            {formatMoney(dashboardData.monthly_total)}
           </div>
           <div className="text-gray-500">
             {selectedYear}年{selectedMonth}月
@@ -242,7 +243,7 @@ export default function ExpenseDashboard() {
                 </thead>
                 <tbody>
                   {dashboardData.category_summary.map((item) => {
-                    const percentage = (item.total_amount / dashboardData.monthly_total * 100).toFixed(1);
+                    const percentage = (parseFloat(item.total_amount) / parseFloat(dashboardData.monthly_total) * 100).toFixed(1);
                     return (
                       <tr key={item.category_id} className="border-b hover:bg-gray-50">
                         <td className="py-2 px-3">
@@ -255,7 +256,7 @@ export default function ExpenseDashboard() {
                           </div>
                         </td>
                         <td className="py-2 px-3 text-right font-medium">
-                          ¥{item.total_amount.toLocaleString()}
+                          {formatMoney(item.total_amount)}
                         </td>
                         <td className="py-2 px-3 text-right">
                           {percentage}%

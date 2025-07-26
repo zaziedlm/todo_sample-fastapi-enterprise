@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Category, ExpenseCreate } from '../types';
 import { categoryApi, expenseApi } from '../api/expenseApi';
+import { normalizeAmountInput, validateAmountInput, getDisplayAmount } from '../utils/money';
 
 interface ExpenseFormProps {
   onExpenseCreated: () => void;
@@ -11,11 +12,12 @@ interface ExpenseFormProps {
 export default function ExpenseForm({ onExpenseCreated }: ExpenseFormProps) {
   const [categories, setCategories] = useState<Category[]>([]);
   const [formData, setFormData] = useState<ExpenseCreate>({
-    amount: 0,
+    amount: '0.00',
     category_id: 0,
     date: new Date().toISOString().split('T')[0],
     memo: '',
   });
+  const [displayAmount, setDisplayAmount] = useState<string>('0');
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -39,20 +41,35 @@ export default function ExpenseForm({ onExpenseCreated }: ExpenseFormProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.category_id === 0 || formData.amount <= 0) {
-      alert('金額とカテゴリーを選択してください');
+    
+    // 金額バリデーション
+    const amountValidation = validateAmountInput(displayAmount);
+    if (!amountValidation.isValid) {
+      alert(amountValidation.error);
+      return;
+    }
+    
+    if (formData.category_id === 0) {
+      alert('カテゴリーを選択してください');
       return;
     }
 
     setLoading(true);
     try {
-      await expenseApi.createExpense(formData);
+      // displayAmountから正規化したamountを作成してAPIに送信
+      const submitData = {
+        ...formData,
+        amount: normalizeAmountInput(displayAmount)
+      };
+      
+      await expenseApi.createExpense(submitData);
       setFormData({
-        amount: 0,
+        amount: '0.00',
         category_id: 0,
         date: new Date().toISOString().split('T')[0],
         memo: '',
       });
+      setDisplayAmount('0');
       onExpenseCreated();
       alert('支出を登録しました');
     } catch (error) {
@@ -74,13 +91,13 @@ export default function ExpenseForm({ onExpenseCreated }: ExpenseFormProps) {
           <input
             type="number"
             id="amount"
-            value={formData.amount || ''}
-            onChange={(e) => setFormData({ ...formData, amount: parseFloat(e.target.value) || 0 })}
+            value={displayAmount}
+            onChange={(e) => setDisplayAmount(e.target.value)}
             className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
             placeholder="1000"
             required
             min="0"
-            step="0.01"
+            step="1"
           />
         </div>
 

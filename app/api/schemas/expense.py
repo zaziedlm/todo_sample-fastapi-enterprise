@@ -2,6 +2,8 @@ from sqlmodel import SQLModel
 from typing import Optional
 from datetime import date, datetime
 from decimal import Decimal
+from pydantic import field_validator
+from app.core.validators import AmountValidator
 
 
 class ExpenseBase(SQLModel):
@@ -12,7 +14,10 @@ class ExpenseBase(SQLModel):
 
 
 class ExpenseCreate(ExpenseBase):
-    pass
+    @field_validator('amount')
+    @classmethod
+    def validate_amount(cls, v):
+        return AmountValidator.validate_amount(v)
 
 
 class ExpenseRead(ExpenseBase):
@@ -26,6 +31,13 @@ class ExpenseUpdate(SQLModel):
     category_id: Optional[int] = None
     date: Optional[date] = None
     memo: Optional[str] = None
+    
+    @field_validator('amount')
+    @classmethod
+    def validate_amount(cls, v):
+        if v is not None:
+            return AmountValidator.validate_amount(v)
+        return v
 
 
 class ExpenseSummary(SQLModel):

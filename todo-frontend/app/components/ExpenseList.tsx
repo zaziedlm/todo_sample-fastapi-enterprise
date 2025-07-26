@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Expense, Category } from '../types';
 import { expenseApi, categoryApi } from '../api/expenseApi';
+import { formatMoney, sumAmounts } from '../utils/money';
 
 interface ExpenseListProps {
   refreshTrigger?: number;
@@ -58,7 +59,7 @@ export default function ExpenseList({ refreshTrigger }: ExpenseListProps) {
     }
   };
 
-  const totalAmount = expenses.reduce((sum, expense) => sum + expense.amount, 0);
+  const totalAmount = sumAmounts(expenses.map(expense => expense.amount));
 
   if (loading) {
     return (
@@ -96,7 +97,7 @@ export default function ExpenseList({ refreshTrigger }: ExpenseListProps) {
 
       <div className="mb-4 p-3 bg-blue-50 rounded-md">
         <div className="text-lg font-bold text-blue-800">
-          {selectedYear}年{selectedMonth}月の合計: ¥{totalAmount.toLocaleString()}
+          {selectedYear}年{selectedMonth}月の合計: {formatMoney(totalAmount)}
         </div>
       </div>
 
@@ -130,7 +131,7 @@ export default function ExpenseList({ refreshTrigger }: ExpenseListProps) {
                     </div>
                   </td>
                   <td className="py-2 px-3 text-right font-medium">
-                    ¥{expense.amount.toLocaleString()}
+                    {formatMoney(expense.amount)}
                   </td>
                   <td className="py-2 px-3 max-w-xs">
                     <div className="truncate" title={expense.memo}>

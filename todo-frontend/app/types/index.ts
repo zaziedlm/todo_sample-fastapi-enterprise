@@ -38,7 +38,7 @@ export interface CategoryCreate {
 // 経費の型定義
 export interface Expense {
   id: number;
-  amount: number;
+  amount: string;
   category_id: number;
   date: string;
   memo?: string;
@@ -48,7 +48,7 @@ export interface Expense {
 
 // 新しい経費を作成する際のリクエスト型
 export interface ExpenseCreate {
-  amount: number;
+  amount: string;
   category_id: number;
   date: string;
   memo?: string;
@@ -56,7 +56,7 @@ export interface ExpenseCreate {
 
 // 経費を更新する際のリクエスト型
 export interface ExpenseUpdate {
-  amount?: number;
+  amount?: string;
   category_id?: number;
   date?: string;
   memo?: string;
@@ -66,7 +66,7 @@ export interface ExpenseUpdate {
 export interface ExpenseSummary {
   category_name: string;
   category_id: number;
-  total_amount: number;
+  total_amount: string;
   color?: string;
 }
 
@@ -74,12 +74,12 @@ export interface ExpenseSummary {
 export interface MonthlyExpense {
   year: number;
   month: number;
-  total_amount: number;
+  total_amount: string;
 }
 
 // ダッシュボードデータの型定義
 export interface DashboardData {
-  monthly_total: number;
+  monthly_total: string;
   category_summary: ExpenseSummary[];
   monthly_trend: MonthlyExpense[];
 }
